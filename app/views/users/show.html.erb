@@ -1,0 +1,89 @@
+<div class="container">
+  <p class="success-message"><%= flash[:notice] %></p>
+  <div class="row">
+    <div class="col-xs-3">
+      <h2>User info</h2>
+      <div class="profile-container">
+        <% if @user.profile_image.present? %>
+        <%= attachment_image_tag @user, :profile_image, :fill, 100, 100 %>
+        <% else %>
+        <%= image_tag 'no_image-ede28af4bad96368ef41be1b4be1cffce0d9402540f75d17895e32cb0d2af5e6.jpg', style: "width: 100px; height: 100px;", class: "profile_image" %>
+        <% end %>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>name</th>
+              <th><%= @user.name %></th>
+            </tr>
+            <tr>
+              <th>introduction</th>
+              <th><%= @user.introduction %></th>
+            </tr>
+          </tbody>
+        </table>
+        <% if @user.id == current_user.id %>
+        <div class="row">
+          <%= link_to "", edit_user_path(@user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+        </div>
+        <% end %>
+      </div>
+      <h2>New book</h2>
+      <%= form_for(@book, url: books_path) do |f| %>
+      <div class="field row">
+        <label>Title</label>
+        <div><%= f.text_field :title, class: "col-xs-12 book_title" %></div>
+      </div>
+      <div class="field row">
+        <label>Opinion</label>
+        <div><%= f.text_area :body, class: "col-xs-12 book_body" %></div>
+      </div>
+
+      <div class="actions row">
+        <%= f.submit 'Create Book', class: "btn btn-primary col-xs-12" %>
+      </div>
+
+      <%= f.hidden_field :user_id, value: current_user.id %>
+
+      <% end %>
+    </div>
+
+    <div class="col-xs-9">
+      <h2>Books</h2>
+      <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+          <tr>
+            <% if User.find(book.user_id).profile_image.present? %>
+            <th>
+              <%= link_to user_path(User.find(book.user_id)) do %>
+              <%= attachment_image_tag User.find(book.user_id), :profile_image, :fill, 50, 50 %>
+              <% end %>
+            </th>
+            <% else %>
+            <th>
+              <%= link_to user_path(User.find(book.user_id)) do %>
+              <%= image_tag 'no_image-ede28af4bad96368ef41be1b4be1cffce0d9402540f75d17895e32cb0d2af5e6.jpg', style: "width: 50px; height: 50px;" %>
+              <% end %>
+            </th>
+            <% end %>
+            <td>
+              <%= link_to book_path(book.id) do %>
+              <%= book.title %></td>
+              <% end %>
+            </td>
+            <td><%= book.body %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

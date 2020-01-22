@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>User info</h1>
+  <%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+  <div class="error-message">
+    <h2 class="error-message-lead"><strong><%= @user.errors.count %> errors prohibited this user from being saved:</h2></strong>
+    <ul class="error-message-details">
+      <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <h4>Name</h4>
+  <div class="field">
+    <%= f.text_field :name, class: "name" %>
+  </div>
+  <h4>Image</h4>
+  <div class="field">
+    <%= f.attachment_field :profile_image, class: "user_image" %>
+  </div>
+  <h4>Introduction</h4>
+  <div class="filed">
+    <%= f.text_area :introduction, class: "introduction" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Update User" %>
+  </div>
+  <% end %>
+</div>

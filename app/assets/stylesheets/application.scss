@@ -13,3 +13,42 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap-sprockets";
+ @import "bootstrap";
+
+* {
+  list-style: none;
+}
+
+body {
+  padding-top: 60px;
+}
+
+header {
+  color: #ffffff;
+}
+
+header .navbar-left span {
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+a:visited {
+  color: #666666;
+}
+
+.navbar-right {
+  font-size: 13px;
+}
+
+div .field, div .actions {
+  margin-bottom: 10px;
+}
+
+.error-message{
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
