@@ -1,0 +1,75 @@
+<div class="container">
+  <p class="success-message"><%= flash[:notice] %></p>
+  <div class="row">
+    <div class="col-xs-3">
+      <h2>User info</h2>
+      <div class="profile-container">
+        <% if current_user.profile_image.present? %>
+        <%= attachment_image_tag current_user, :profile_image, :fill, 100, 100 %>
+        <% else %>
+        <%= image_tag 'no_image-ede28af4bad96368ef41be1b4be1cffce0d9402540f75d17895e32cb0d2af5e6.jpg', style: "width: 100px; height: 100px;" %>
+        <% end %>
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>name</th>
+              <th><%= current_user.name %></th>
+            </tr>
+            <tr>
+              <th>introduction</th>
+              <th><%= current_user.introduction %></th>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row">
+          <%= link_to "", edit_user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+        </div>
+
+      </div>
+      <h2>New book</h2>
+      <%= form_for(@book_new, url: books_path) do |f| %>
+      <div class="field row">
+        <label>Title</label>
+        <div><%= f.text_field :title, class: "col-xs-12 book_title" %></div>
+      </div>
+      <div class="field row">
+        <label>Opinion</label>
+        <div><%= f.text_area :body, class: "col-xs-12 book_body" %></div>
+      </div>
+
+      <div class="actions row">
+        <%= f.submit 'Create Book', class: "btn btn-primary col-xs-12" %>
+      </div>
+
+      <%= f.hidden_field :user_id, value: current_user.id %>
+
+      <% end %>
+    </div>
+    <div class="col-xs-9">
+      <h2>Book detail</h2>
+      <table class="table">
+        <tbody>
+          <td>
+            <%= link_to user_path(@book.user_id) do %>
+            <% if User.find(@book.user_id).profile_image.present? %>
+            <%= attachment_image_tag User.find(@book.user_id), :profile_image, :fill, 40, 40 %>
+            <% else %>
+            <%= image_tag('no_image-ede28af4bad96368ef41be1b4be1cffce0d9402540f75d17895e32cb0d2af5e6.jpg', style: "width: 40px; height: 40px;" ) %>
+            <% end %>
+            <br>
+            <%= @user.name %>
+          </td>
+          <% end %>
+          <td><%= @book.title %></td>
+          <td><%= @book.body %></td>
+          <% if @user.id == current_user.id %>
+          <td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success" %></td>
+          <td><%= link_to "Destroy", book_path(@book), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn-sm btn-danger" %></td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
